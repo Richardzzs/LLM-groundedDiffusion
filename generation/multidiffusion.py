@@ -44,7 +44,7 @@ def get_views(panorama_height, panorama_width, window_size=64, stride=8):
 
 
 class MultiDiffusion(nn.Module):
-    def __init__(self, device, sd_version="2.0", batch_size=2, hf_key=None):
+    def __init__(self, device, sd_version="2.1", batch_size=2, hf_key=None):
         super().__init__()
 
         self.device = device

@@ -183,6 +183,7 @@ def generate_semantic_guidance(model_dict, latents, input_embeddings, num_infere
     for index, t in enumerate(tqdm(scheduler.timesteps, disable=not show_progress)):
         # expand the latents if we are doing classifier-free guidance to avoid doing two forward passes.
         
+        # TODO: 尝试修改这里，让模型读取customized的embedding或者image
         if bboxes:
             if use_boxdiff:
                 latents, loss = boxdiff.latent_backward_guidance_boxdiff(scheduler, unet, cond_embeddings, index, bboxes, object_positions, t, latents, loss, cross_attention_kwargs=guidance_cross_attention_kwargs, **semantic_guidance_kwargs)

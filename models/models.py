@@ -13,7 +13,7 @@ sd_key = ""
 sd_version = ""
 model_dict = None
 
-def load_sd(key="runwayml/stable-diffusion-v1-5", use_fp16=False, load_inverse_scheduler=False, use_dpm_multistep_scheduler=False, scheduler_cls=None):
+def load_sd(key="stabilityai/stable-diffusion-2-1-base", use_fp16=False, load_inverse_scheduler=False, use_dpm_multistep_scheduler=False, scheduler_cls=None):
     """
     Keys:
      key = "CompVis/stable-diffusion-v1-4"
@@ -51,13 +51,35 @@ def load_sd(key="runwayml/stable-diffusion-v1-5", use_fp16=False, load_inverse_s
         print("Using scheduler:", scheduler_cls)
         assert not use_dpm_multistep_scheduler, "`use_dpm_multistep_scheduler` cannot be used with `scheduler_cls`"
         scheduler = scheduler_cls.from_pretrained(key, subfolder="scheduler", revision=revision, torch_dtype=dtype)
-
-    model_dict = EasyDict(vae=vae, tokenizer=tokenizer, text_encoder=text_encoder, unet=unet, scheduler=scheduler, dtype=dtype)
     
     if load_inverse_scheduler:
         inverse_scheduler = DDIMInverseScheduler.from_config(scheduler.config)
         model_dict.inverse_scheduler = inverse_scheduler
     
+    # load the embeddings
+    my_embeddings = torch.load("embeds/48/learned_embeds_final.bin")
+
+    for placeholder_token, embed in my_embeddings.items():
+       if embed.shape[0] != 1024:
+           raise ValueError(f"Embed size for {placeholder_token} is {embed.shape[0]}, expected 1024.")
+
+    # Add the placeholder token in tokenizer
+    for placeholder_token, embed in my_embeddings.items():
+        print(f"Adding token {placeholder_token}")
+        num_added_tokens = tokenizer.add_tokens(placeholder_token)
+        if num_added_tokens == 0:
+            raise ValueError(
+                f"The tokenizer already contains the token {placeholder_token}. Please pass a different"
+                " `placeholder_token` that is not already in the tokenizer."
+            )
+
+    text_encoder.resize_token_embeddings(len(tokenizer))
+    for placeholder_token, embed in my_embeddings.items():
+        placeholder_token_id = tokenizer.convert_tokens_to_ids(placeholder_token)
+        text_encoder.get_input_embeddings().weight.data[placeholder_token_id] = embed
+
+    model_dict = EasyDict(vae=vae, tokenizer=tokenizer, text_encoder=text_encoder, unet=unet, scheduler=scheduler, dtype=dtype)
+
     return model_dict
 
 def encode_prompts(tokenizer, text_encoder, prompts, negative_prompt="", return_full_only=False, one_uncond_input_only=False):

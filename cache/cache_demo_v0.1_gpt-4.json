@@ -7,5 +7,8 @@
     ],
     "A realistic image of a white deer and a gray bear in an empty factory scene": [
         "[('a white deer', [74, 177, 183, 235]), ('a gray bear', [314, 193, 189, 216])]\nBackground prompt: A realistic image of an empty factory scene\nNegative prompt: "
+    ],
+    "A photo of a <asset0> and a <asset*a> on the right": [
+        "[('a <asset0>', [50, 200, 200, 200]), ('a <asset*a>', [300, 200, 200, 200])]\nBackground prompt: A realistic scene\nNegative prompt: "
     ]
 }

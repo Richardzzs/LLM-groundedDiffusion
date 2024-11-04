@@ -58,6 +58,12 @@ def generate_single_object_with_box(
     visualize=False,
     **kwargs,
 ):
+    # print("input_latents", input_latents)
+    # print(input_latents[0][0].shape) # torch.Size([64, 64])
+
+    # print("input_embeddings", input_embeddings)
+    # print(input_embeddings[0][0].shape) # torch.Size([77, 768])
+
     bboxes, phrases, words = [box], [phrase], [word]
 
     if verbose:

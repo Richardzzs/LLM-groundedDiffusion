@@ -1,5 +1,5 @@
 # The trailing space and "\n" is not a problem since they will be removed before making an API request.
-templatev0_1 = """You are an intelligent bounding box generator. I will provide you with a caption for a photo, image, or painting. Your task is to generate the bounding boxes for the objects mentioned in the caption, along with a background prompt describing the scene. The images are of size 512x512. The top-left corner has coordinate [0, 0]. The bottom-right corner has coordinnate [512, 512]. The bounding boxes should not overlap or go beyond the image boundaries. Each bounding box should be in the format of (object name, [top-left x coordinate, top-left y coordinate, box width, box height]) and should not include more than one object. Do not put objects that are already provided in the bounding boxes into the background prompt. Do not include non-existing or excluded objects in the background prompt. Use "A realistic scene" as the background prompt if no background is given in the prompt. If needed, you can make reasonable guesses. Please refer to the example below for the desired format.
+templatev0_1 = """You are an intelligent bounding box generator. I will provide you with a caption for a photo, image, or painting. Your task is to generate the bounding boxes for the objects (which could be placeholder) mentioned in the caption, along with a background prompt describing the scene. The images are of size 512x512. The top-left corner has coordinate [0, 0]. The bottom-right corner has coordinnate [512, 512]. The bounding boxes should not overlap or go beyond the image boundaries. Each bounding box should be in the format of (object name, [top-left x coordinate, top-left y coordinate, box width, box height]) and should not include more than one object. Do not put objects that are already provided in the bounding boxes into the background prompt. Do not include non-existing or excluded objects in the background prompt. Use "A realistic scene" as the background prompt if no background is given in the prompt. If needed, you can make reasonable guesses. Please refer to the example below for the desired format.
 
 Caption: A realistic image of landscape scene depicting a green car parking on the left of a blue truck, with a red air balloon and a bird in the sky
 Objects: [('a green car', [21, 281, 211, 159]), ('a blue truck', [269, 283, 209, 160]), ('a red air balloon', [66, 8, 145, 135]), ('a bird', [296, 42, 143, 100])]
@@ -52,10 +52,14 @@ stop = "\n\n"
 prompts_demo_gpt4, prompts_demo_gpt3_5 = [], []
 
 # Put what we want to generate when you query GPT-4 for demo here
+# prompts_demo_gpt4 = [
+#     "In an indoor scene, a blue cube directly above a red cube with a vase on the left of them.",
+#     "A realistic photo of a wooden table without bananas in an indoor scene",
+#     "A realistic image of a white deer and a gray bear in an empty factory scene",
+# ]
+
 prompts_demo_gpt4 = [
-    "In an indoor scene, a blue cube directly above a red cube with a vase on the left of them.",
-    "A realistic photo of a wooden table without bananas in an indoor scene",
-    "A realistic image of a white deer and a gray bear in an empty factory scene",
+    "A photo of a <asset0> and a <asset*a> on the right."
 ]
 
 # Put what we want to generate when you query GPT-3.5 for demo here
