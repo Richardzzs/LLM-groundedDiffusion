@@ -55,12 +55,19 @@ def load_sd(key="stabilityai/stable-diffusion-2-1-base", use_fp16=False, load_in
     if load_inverse_scheduler:
         inverse_scheduler = DDIMInverseScheduler.from_config(scheduler.config)
         model_dict.inverse_scheduler = inverse_scheduler
-    
+
+    model_dict = EasyDict(vae=vae, tokenizer=tokenizer, text_encoder=text_encoder, unet=unet, scheduler=scheduler, dtype=dtype)
+
+    return model_dict
+
+def load_my_embeds(model_dict):
+    tokenizer = model_dict.tokenizer
+    text_encoder = model_dict.text_encoder
     # load the embeddings
     my_embeddings = torch.load("embeds/48/learned_embeds_final.bin")
 
     for placeholder_token, embed in my_embeddings.items():
-       if embed.shape[0] != 1024:
+        if embed.shape[0] != 1024:
            raise ValueError(f"Embed size for {placeholder_token} is {embed.shape[0]}, expected 1024.")
 
     # Add the placeholder token in tokenizer
@@ -77,9 +84,7 @@ def load_sd(key="stabilityai/stable-diffusion-2-1-base", use_fp16=False, load_in
     for placeholder_token, embed in my_embeddings.items():
         placeholder_token_id = tokenizer.convert_tokens_to_ids(placeholder_token)
         text_encoder.get_input_embeddings().weight.data[placeholder_token_id] = embed
-
-    model_dict = EasyDict(vae=vae, tokenizer=tokenizer, text_encoder=text_encoder, unet=unet, scheduler=scheduler, dtype=dtype)
-
+    
     return model_dict
 
 def encode_prompts(tokenizer, text_encoder, prompts, negative_prompt="", return_full_only=False, one_uncond_input_only=False):

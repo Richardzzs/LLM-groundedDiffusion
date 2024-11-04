@@ -17,7 +17,7 @@ def get_token_map(tokenizer, prompt, verbose=False, padding="do_not_pad"):
     token_map = []
     for ind, item in enumerate(input_ids.tolist()):
 
-        token = tokenizer._convert_id_to_token(item)
+        token = tokenizer.convert_ids_to_tokens([item])[0]
         if verbose:
             print(f"{ind}, {token} ({item})")
             

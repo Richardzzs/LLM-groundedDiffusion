@@ -59,7 +59,7 @@ prompts_demo_gpt4, prompts_demo_gpt3_5 = [], []
 # ]
 
 prompts_demo_gpt4 = [
-    "A photo of a <asset0> and a <asset*a> on the right."
+    "A photo of a <asset0>."
 ]
 
 # Put what we want to generate when you query GPT-3.5 for demo here

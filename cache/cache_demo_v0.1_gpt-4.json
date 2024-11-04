@@ -10,5 +10,8 @@
     ],
     "A photo of a <asset0> and a <asset*a> on the right": [
         "[('a <asset0>', [50, 200, 200, 200]), ('a <asset*a>', [300, 200, 200, 200])]\nBackground prompt: A realistic scene\nNegative prompt: "
+    ],
+    "A photo of a <asset0>": [
+        "[('an <asset0>', [96, 128, 320, 256])]\nBackground prompt: A realistic scene\nNegative prompt: "
     ]
 }

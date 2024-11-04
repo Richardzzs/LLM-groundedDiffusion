@@ -9,6 +9,9 @@ from prompt import (
 )
 from easydict import EasyDict
 
+# load my embeds
+model_dict = models.load_my_embeds(model_dict)
+
 vae, tokenizer, text_encoder, unet, scheduler, dtype = (
     model_dict.vae,
     model_dict.tokenizer,
