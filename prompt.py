@@ -16,10 +16,7 @@ Objects: [('a skier', [5, 152, 139, 168]), ('a skier', [278, 192, 121, 158]), ('
 Background prompt: A realistic outdoor scene with snow
 Negative prompt: 
 
-Caption: An oil painting of a pink dolphin jumping on the left of a steam boat on the sea
-Objects: [('a steam boat', [232, 225, 257, 149]), ('a jumping pink dolphin', [21, 249, 189, 123])]
-Background prompt: An oil painting of the sea
-Negative prompt: 
+
 
 Caption: A cute cat and an angry dog without birds
 Objects: [('a cute cat', [51, 67, 271, 324]), ('an angry dog', [302, 119, 211, 228])]
